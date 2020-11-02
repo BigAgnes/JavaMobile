@@ -4,7 +4,9 @@ public class Main {
     public static void main(String[] args) {
         MainClassTest test = new MainClassTest();
         //test.testGetLocalNumber();
-        test.testGetClassNumber();
+        //test.testGetClassNumber();
+        test.testGetClassString();
+
 
 
     }

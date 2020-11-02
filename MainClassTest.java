@@ -7,10 +7,15 @@ public class MainClassTest extends MainClass{
     {
         Assert.assertTrue( "This value is not 14!",getLocalNumber()==14);
     }
-
     @Test
     public void testGetClassNumber()
     {
         Assert.assertTrue( "Value less than 45",getClassNumber()>45);
+    }
+    @Test
+    public void testGetClassString()
+    {
+        String actual = getClassString();
+        Assert.assertTrue("In message not have Hello!", actual.contains("Hello") || actual.contains("hello"));
     }
 }
