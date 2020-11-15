@@ -9,10 +9,8 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.net.URL;
 
-import static javax.swing.text.html.CSS.getAttribute;
 
 public class MyFirstClass {
     private AndroidDriver driver;
@@ -36,7 +34,20 @@ public class MyFirstClass {
     }
 
     @Test
-    public void compareTextinInputfieldSearch(){
+    public void findSeveralOptionsAndCancelTheSearch(){
+        WebElement skip = waitForElementPresent(By.xpath("//*[contains (@text, 'SKIP')]"), "Not found", 15);
+        skip.click();
+        waitForElementAndClick(By.xpath("//*[contains(@text, 'Search Wikipedia')]"), "The element was not found or it is impossible to click on it", 5);
+        waitForElementAndSendKeys(By.xpath("//*[contains(@text, 'Search Wikipedia')]"), "java","Element not found or unable to enter text", 10);
+        driver.findElements(By.xpath("//*[contains(@text, 'Java')]"));
+        waitForElementAndClick(By.xpath("//android.widget.ImageView[@content-desc='Clear query']"), "The element was not found or it is impossible to click on it", 10);
+        waitForElementNotPresent(By.xpath("//android.widget.ImageView[@content-desc='Clear query']"), "The element is displayed on the page", 10);
+    }
+
+
+
+    @Test
+    public void compareTextInInputFieldSearch(){
         WebElement skip = waitForElementPresent(By.xpath("//*[contains (@text, 'SKIP')]"), "Not found", 15);
         skip.click();
         waitForElementAndClick(By.xpath("//*[contains(@text, 'Search Wikipedia')]"), "Element not found", 10);
