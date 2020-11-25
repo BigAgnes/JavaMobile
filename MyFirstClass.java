@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.net.URL;
 import java.time.Duration;
+import java.util.List;
 
 
 public class MyFirstClass {
@@ -36,6 +37,16 @@ public class MyFirstClass {
     @After
     public void tearDown(){
         driver.quit();
+    }
+
+    @Test
+    public void getTitleTest(){
+        waitForElementAndClick(By.id("org.wikipedia:id/fragment_onboarding_skip_button"), "Not found element skip", 15);  //нажатие кнопки "Пропустить"
+        waitForElementAndClick(By.xpath("//*[contains(@text, 'Поиск по Википедии')]"), "The element was not found or it is impossible to click on it", 5); //нажатие на "поиск"
+        waitForElementAndSendKeys(By.id("org.wikipedia:id/search_src_text"), "Java","Element not found or unable to enter text", 10);  //ввод названия статьи
+        waitForElementAndClick(By.xpath("//android.view.ViewGroup[1]/android.widget.TextView"), "The element was not found or it is impossible to click on it", 15); //нажатие на первую статью в списке
+        assertElementPresent(By.xpath("//android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[1][contains(@text, 'Java')]"),"Title is not present this page");
+
     }
 
     @Test
@@ -159,6 +170,26 @@ public class MyFirstClass {
         int middle_y = (upper_y+lower_y)/2;
         TouchAction action = new TouchAction(driver);
         action.press(PointOption.point(right_x, middle_y)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(30))).moveTo(PointOption.point(left_x, middle_y)).release().perform();
+    }
+
+    private int getAmountOfElements(By by){
+        List elements = driver.findElements(by);
+        return elements.size();
+    }
+    private void assertElementNotPresent(By by, String error_message){
+        int amount_of_elements = getAmountOfElements(by);
+        if (amount_of_elements>0){
+            String default_message = "An element '" + by.toString() + "'supposed to be not present";
+            throw new AssertionError(default_message + " " + error_message);
+        }
+
+    }
+
+    protected void assertElementPresent(By by, String error_message) {
+        int amount_of_elements = getAmountOfElements(by);
+        if (amount_of_elements == 0) {
+            throw new AssertionError(error_message);
+        }
     }
 
 
