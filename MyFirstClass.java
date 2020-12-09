@@ -1,4 +1,5 @@
 import io.appium.java_client.android.AndroidDriver;
+import lib.ui.SearchPageObject;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,17 +35,14 @@ public class MyFirstClass {
     }
 
     @Test
-    public void checkingWordsInSearch(){
-        WebElement skip = waitForElementPresent(By.xpath("//*[contains (@text, 'SKIP')]"), "Not found", 15);
-        skip.click();
-        waitForElementAndClick(By.xpath("//*[contains(@text, 'Search Wikipedia')]"), "The element was not found or it is impossible to click on it", 5);
-        waitForElementAndSendKeys(By.id("org.wikipedia:id/search_src_text"), "java","Element not found or unable to enter text", 10);
-        for(int i = 1; i < 5; i++){
-            WebElement element = waitForElementPresent(By.xpath("//android.view.ViewGroup[" + i + "]/android.widget.TextView"), "Element not found", 15);
-            String actual_text = element.getText();
-            Assert.assertTrue("The expected text does not match the actual", actual_text.contains("Java")||actual_text.contains("java"));
-        }
+    public void testSearchByArticleAndDescription() {
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Java");
+        SearchPageObject.waitForElementByTitleAndDescription("Java", "язык программирования");
     }
+}
 
 
     @Test
